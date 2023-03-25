@@ -21,6 +21,7 @@ router.post("/addproduct", multer.upload.single("file"), async (req, res) => {
             category: req.body.category,
             price: req.body.price,
             productImage: `${URL}/api/image/${req.file.filename}`,
+            location:req.body.location,
             quantity: req.body.quantity,
             rating: 0,
             ratingCount: 0
