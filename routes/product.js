@@ -142,6 +142,21 @@ router.post("/getproducts", async (req, res) => {
 })
 
 
+router.get('/allproducts', async (req, res) => {
+    try {
+        let products = await Product.find({ quantity: { $ne: 0 } });
+        if (products.length > 0) {
+            products.reverse();
+            res.send(products);
+        } else {
+            res.send({ result: "No products found" })
+        }
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
 
 
 module.exports = router;

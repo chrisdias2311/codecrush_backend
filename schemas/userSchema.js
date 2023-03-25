@@ -31,6 +31,9 @@ const userSchema = mongoose.Schema({
         type: String,
 
     },
+    location:{
+        type: String,
+    },
 });
 
 
