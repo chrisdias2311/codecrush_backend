@@ -87,6 +87,63 @@ router.post("/createtransaction", async (req, res) => {
     }
 })
 
+router.post('/updateone', async(req, res)=>{
+    try {
+        const transaction = await Transaction.findOne({ _id: mongoose.Types.ObjectId(req.body.id)  });
+        if(transaction){
+            try {
+                let test = await Transaction.updateOne(
+                    { _id: mongoose.Types.ObjectId(transaction._id) },
+                    { $set: { status: "Out for delivery" } }
+                )
+                res.status(200).send("Transaction updated successfully")
+            } catch (error) {
+               res.status(400).send(error) 
+               console.log(error)
+            } 
+        }else{
+            res.status(401).send("Transaction not found")
+        }
+    } catch (error) {
+        res.status(400).send("Couldn't update transaction")
+    }
+})
+
+router.post('/updatetwo', async(req, res)=>{
+    try {
+        const transaction = await Transaction.findOne({ _id: mongoose.Types.ObjectId(req.body.id)  });
+        if(transaction){
+            try {
+                let test = await Transaction.updateOne(
+                    { _id: mongoose.Types.ObjectId(transaction._id) },
+                    { $set: { status: "Delivered" } }
+                )
+                res.status(200).send("Transaction updated successfully")
+            } catch (error) {
+               res.status(400).send(error) 
+               console.log(error)
+            }
+            
+        }else{
+            res.status(401).send("Transaction not found")
+        }
+    } catch (error) {
+        res.status(400).send("Couldn't update transaction")
+    }
+})
+router.post('/gettransaction', async(req, res)=>{
+    try {
+        const transaction = await Transaction.findOne({ _id: mongoose.Types.ObjectId(req.body.id)  });
+        if(transaction){
+            res.status(200).send(transaction)
+            
+        }else{
+            res.status(401).send("Transaction not found")
+        }
+    } catch (error) {
+        res.status(400).send("Couldn't update transaction")
+    }
+})
 
 router.get('/alltransactions', async (req, res) => {
     try {
