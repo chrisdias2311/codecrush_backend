@@ -93,10 +93,8 @@ router.post("/getproducts", async (req, res) => {
                         fruits = await Product.find({ category: "Fruits" })
                         vegetables = await Product.find({ category: "Vegetables" })
                         foodGrains = await Product.find({ category: "Foodgrains" })
-                        reccomend.push(fruits)
-                        reccomend.push(vegetables)
-                        reccomend.push(foodGrains)
-                        res.status(200).send({allproducts:products, reccomended:reccomend})
+                        res.status(200).send({allproducts:products, reccomended:fruits.concat(vegetables, foodGrains)})
+                        console.log(fruits)
 
                     } else if (user.fruits === user.vegetables) {
                         fruits = await Product.find({ category: "Fruits" })
@@ -154,6 +152,20 @@ router.get('/allproducts', async (req, res) => {
         }
     } catch (error) {
         console.log(error)
+    }
+})
+
+router.post("/getproductdetails", async (req, res) => {
+    try {
+        let product = await Product.findOne({ _id: mongoose.Types.ObjectId(req.body.id) }); //find user here
+        if (product) {
+            res.status(200).send(product);
+        } else {
+            res.send("No product found").send(401);
+        }
+    } catch (error) {
+        res.status(401).send(error);
+        console.log(error);
     }
 })
 

@@ -18,6 +18,7 @@ app.use('/api/image', require('./middlewares/multer').router)
 app.use('/api/user', require('./routes/user'))
 app.use('/api/product', require('./routes/product'))
 app.use('/api/farmer', require('./routes/farmer'))
+app.use('/api/transaction', require('./routes/transactions'))
 
 app.listen(5000, () => {
     console.log(`server is running on port 5000`);

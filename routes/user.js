@@ -28,10 +28,10 @@ router.post("/register", async (req, res) => {
                     lastname: req.body.lastname,
                     password: hash,
                     location: req.body.location,
-                    fruits:0,
-                    vegetables:0,
-                    foodGrains:0,
-                    verified:"No",
+                    fruits: 0,
+                    vegetables: 0,
+                    foodGrains: 0,
+                    verified: "No",
                 })
                 //save user here
                 const saved = await NewUser.save().then((result) => {
@@ -130,6 +130,42 @@ router.get('/verifyotp/:email/:otp', async (req, res) => {
         }
     } else {
         res.status(400).send("No user found")
+    }
+})
+
+router.post("/productclick", async (req, res) => {
+    try {
+        let user = await User.findOne({ _id: mongoose.Types.ObjectId(req.body.id) })//find user here
+        if (user) {
+
+            if (req.body.category === 'Fruits') {
+                let test = await User.updateOne(
+                    { _id: mongoose.Types.ObjectId(user._id) },
+                    { $set: { fruits: user.fruits+1 } }
+                )
+                res.status(200).send("Updated successfully!")
+            }else if(req.body.category === 'Vegetables'){
+                let test = await User.updateOne(
+                    { _id: mongoose.Types.ObjectId(user._id) },
+                    { $set: { vegetables: user.vegetables+1 } }
+                )
+                res.status(200).send("Updated successfully!")
+            }else if(req.body.category === 'Foodgrains'){
+                let test = await User.updateOne(
+                    { _id: mongoose.Types.ObjectId(user._id) },
+                    { $set: { foodGrains: user.foodGrains+1 } }
+                )
+                res.status(200).send("Updated successfully!")
+            }else{
+                res.status(400).send("Not valid category")
+            }
+
+        } else {
+            res.status(400).send("No user found");
+        }
+    } catch (error) {
+        res.status(400).send(error);
+        console.log(error);
     }
 })
 
