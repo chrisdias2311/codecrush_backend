@@ -96,4 +96,19 @@ router.post("/login", async (req, res) => {
 })
 
 
+router.get('/invalidfarmers', async (req, res) => {
+    try {
+        let farmers = await Farmer.find({verified: 'No'});
+        if (farmers.length > 0) {
+            res.send(farmers);
+        } else {
+            res.send({ result: "No Farmers found" })
+        }
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
+
 module.exports = router;

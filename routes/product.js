@@ -99,16 +99,13 @@ router.post("/getproducts", async (req, res) => {
                     } else if (user.fruits === user.vegetables) {
                         fruits = await Product.find({ category: "Fruits" })
                         vegetables = await Product.find({ category: "Vegetables" })
-                        reccomend.push(fruits)
-                        reccomend.push(vegetables)
-                        res.status(200).send({allproducts:products, reccomended:reccomend})
+                        res.status(200).send({allproducts:products, reccomended:fruits.concat(vegetables)})
                         
                     } else if (user.fruits === user.foodGrains) {
                         fruits = await Product.find({ category: "Fruits" })
                         foodGrains = await Product.find({ category: "Foodgrains" })
-                        reccomend.push(fruits)
-                        reccomend.push(foodGrains)
-                        res.status(200).send({allproducts:products, reccomended: reccomend})
+                        res.status(200).send({allproducts:products, reccomended: fruits.concat(foodGrains)})
+
                     } else {
                         fruits = await Product.find({ category: "Fruits" })
                         res.status(200).send({allproducts:products, reccomended: fruits})
@@ -117,9 +114,7 @@ router.post("/getproducts", async (req, res) => {
                     if (user.vegetables === user.foodGrains) {
                         vegetables = await Product.find({ category: "Vegetables" })
                         foodGrains = await Product.find({ category: "Foodgrains" })
-                        reccomend.push(vegetables)
-                        reccomend.push(foodGrains)
-                        res.status(200).send({allproducts:products, reccomended:reccomend})
+                        res.status(200).send({allproducts:products, reccomended:vegetables.concat(foodGrains)})
                     } else {
                         vegetables = await Product.find({ category: "Vegetables" })
                         res.status(200).send({allproducts:products, reccomended:vegetables})

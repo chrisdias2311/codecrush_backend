@@ -45,6 +45,12 @@ const transactionSchema = mongoose.Schema({
     },
     status:{
         type:String,
+    }, 
+    productName:{
+        type: String,
+    },
+    productCategory:{
+        type:String
     }
 });
 

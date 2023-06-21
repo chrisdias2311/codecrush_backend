@@ -65,7 +65,9 @@ router.post("/createtransaction", async (req, res) => {
             buyerLocation: req.body.location,
             orderDate: slicedDate,
             distance: dist,
-            status: "Ordered"
+            status: "Ordered",
+            productName:product.name,
+            productCategory:product.category
         });
 
         const saved = await newTransaction.save(function (err, transaction) {
@@ -155,6 +157,19 @@ router.get('/alltransactions', async (req, res) => {
         }
     } catch (error) {
         console.log(error)
+    }
+})
+
+router.post('/getmytransactions', async(req, res)=>{
+    try {
+        const transactions = await Transaction.find({ ownerId: mongoose.Types.ObjectId(req.body.id)  });
+        if(transactions){
+            res.status(200).send(transactions)
+        }else{
+            res.status(401).send("Transaction not found")
+        }
+    } catch (error) {
+        res.status(400).send("Couldn't update transaction")
     }
 })
 
